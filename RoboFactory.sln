@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboFactory.Api", "RoboFactory.Api\RoboFactory.Api.csproj", "{E558D541-D9AB-482F-936E-1C27985D3427}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboFactory.Tests", "RoboFactory.Tests\RoboFactory.Tests.csproj", "{9D518691-49BE-4D58-91B9-88348108929E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E558D541-D9AB-482F-936E-1C27985D3427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E558D541-D9AB-482F-936E-1C27985D3427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E558D541-D9AB-482F-936E-1C27985D3427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E558D541-D9AB-482F-936E-1C27985D3427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D518691-49BE-4D58-91B9-88348108929E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D518691-49BE-4D58-91B9-88348108929E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D518691-49BE-4D58-91B9-88348108929E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D518691-49BE-4D58-91B9-88348108929E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
