@@ -1,9 +1,22 @@
 namespace RoboFactory.Api.Services;
 public class CostService
 {
-    public Quote? CalculateCost(RoboHead head)
+    private readonly List<Supplier> _suppliers;
+
+    public CostService(List<Supplier> suppliers)
     {
-        return new Quote( RoboHead.InfraredVision, 1);
+        _suppliers = suppliers;
+    }
+
+    public Quote CalculateCost(RoboHead head)
+    {
+        double cheapest = Double.PositiveInfinity;
+        foreach (var supplier in _suppliers)
+        {
+            cheapest = Math.Min(cheapest, supplier.GetPrice(head));
+        }
+
+        return new Quote( RoboHead.InfraredVision, cheapest);
     }
 
 }

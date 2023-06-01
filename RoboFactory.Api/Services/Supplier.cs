@@ -1,6 +1,6 @@
 namespace RoboFactory.Api.Services;
 
-public class Supplier
+public interface Supplier
 {
-     
+    double GetPrice(RoboHead head);
 }
