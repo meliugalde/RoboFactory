@@ -7,7 +7,14 @@ public class CostServiceTest
 {
     readonly Mock<Supplier> mockSupplier = new();
     readonly Mock<Supplier> mockLuxurySupplier = new();
-    
+    readonly CostService costService;
+
+    public CostServiceTest()
+    {
+        var suppliers = new List<Supplier>(){ mockSupplier.Object, mockLuxurySupplier.Object };
+        costService = new CostService(suppliers);
+    }
+
     [Fact]
     public void CalculateCostForTheSpecificParts()
     {
@@ -16,9 +23,7 @@ public class CostServiceTest
         mockSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHead>())).Returns(true);
         mockSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboHead>())).Returns(65);
         
-        var suppliers = new List<Supplier>(){ mockSupplier.Object };
-        CostService costService = new CostService(suppliers);
-        var expectedInfraredQuote = new Quote(RoboHead.InfraredVision, 65);
+        var expectedInfraredQuote = new Quote(RoboHead.InfraredVision, 15);
        
         var infraredQuote = costService.CalculateCost(RoboHead.InfraredVision);
         var standardQuote = costService.CalculateCost(RoboHead.StandardVision);
@@ -30,8 +35,6 @@ public class CostServiceTest
     [Fact]
     public void ThrowsAnErrorWhenNoSupplierProvidesASpecificPart()
     {
-        var suppliers = new List<Supplier>(){ mockSupplier.Object };
-        CostService costService = new CostService(suppliers);
         Assert.Throws<Exception>(() => costService.CalculateCost(RoboHead.InfraredVision));
     }
 
@@ -42,9 +45,6 @@ public class CostServiceTest
         mockLuxurySupplier.Setup(luxurySupplier => luxurySupplier.GetPrice(It.IsAny<RoboHead>())).Returns(50);
         mockSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHead>())).Returns(true);
         mockSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboHead>())).Returns(35);
-        
-        var suppliers = new List<Supplier>(){ mockSupplier.Object };
-        CostService costService = new CostService(suppliers);
 
         costService.CalculateCost(RoboHead.InfraredVision);
         
@@ -59,9 +59,6 @@ public class CostServiceTest
         mockSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHead>())).Returns(true);
         mockSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboHead>())).Returns(20);
 
-        var suppliers = new List<Supplier>(){ mockSupplier.Object, mockLuxurySupplier.Object };
-        CostService costService = new CostService(suppliers);
-        
         var currentQuote = costService.CalculateCost(RoboHead.InfraredVision);
         var (_, currentPrice) = currentQuote.Head;
         
@@ -74,10 +71,7 @@ public class CostServiceTest
         mockLuxurySupplier.Setup(luxurySupplier => luxurySupplier.HasPart(It.IsAny<RoboHead>())).Returns(true);
         mockLuxurySupplier.Setup(luxurySupplier => luxurySupplier.GetPrice(It.IsAny<RoboHead>())).Returns(15);
         mockSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHead>())).Returns(false);
-        
-        var suppliers = new List<Supplier>(){ mockSupplier.Object, mockLuxurySupplier.Object };
-        CostService costService = new CostService(suppliers);
-        
+
         var currentQuote = costService.CalculateCost(RoboHead.InfraredVision);
         var (_, currentPrice) = currentQuote.Head;
         
