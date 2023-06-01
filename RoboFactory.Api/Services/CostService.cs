@@ -1,3 +1,5 @@
+using static System.Double;
+
 namespace RoboFactory.Api.Services;
 public class CostService
 {
@@ -10,13 +12,21 @@ public class CostService
 
     public Quote CalculateCost(RoboHead head)
     {
-        double cheapest = Double.PositiveInfinity;
+        double cheapest = PositiveInfinity;
         foreach (var supplier in _suppliers)
         {
-            cheapest = Math.Min(cheapest, supplier.GetPrice(head));
+            if (supplier.HasPart(head))
+            {
+                cheapest = Math.Min(cheapest, supplier.GetPrice(head));
+            }
         }
 
-        return new Quote( RoboHead.InfraredVision, cheapest);
+        if (Double.IsPositiveInfinity(cheapest))
+        {
+            throw new Exception("No supplier for the Head robot part");
+        }
+        
+        return new Quote(head, cheapest);
     }
 
 }
