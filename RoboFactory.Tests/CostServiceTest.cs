@@ -19,9 +19,9 @@ public class CostServiceTest
     public void CalculateCostForTheSpecificParts()
     {
         mockLuxurySupplier.Setup(luxurySupplier => luxurySupplier.HasPart(It.IsAny<RoboHead>())).Returns(true);
-        mockLuxurySupplier.Setup(luxurySupplier => luxurySupplier.GetPrice(It.IsAny<RoboHead>())).Returns(15);
+        GivenPriceForPart(mockLuxurySupplier, 15);
         mockSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHead>())).Returns(true);
-        mockSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboHead>())).Returns(65);
+        GivenPriceForPart(mockSupplier, 65);
         
         var expectedInfraredQuote = new Quote(RoboHead.InfraredVision, 15);
        
@@ -30,6 +30,11 @@ public class CostServiceTest
 
         Assert.Equal(expectedInfraredQuote, infraredQuote);
         Assert.NotEqual(standardQuote, infraredQuote);
+    }
+
+    private void GivenPriceForPart(Mock<Supplier> mockedSupplier, int price)
+    {
+        mockedSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboHead>())).Returns(price);
     }
 
     [Fact]
@@ -60,9 +65,8 @@ public class CostServiceTest
         mockSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboHead>())).Returns(20);
 
         var currentQuote = costService.CalculateCost(RoboHead.InfraredVision);
-        var (_, currentPrice) = currentQuote.Head;
         
-        Assert.Equal(20, currentPrice);
+        AssertQuotePriceEquals(currentQuote, 20);
     }
 
     [Fact]
@@ -73,10 +77,15 @@ public class CostServiceTest
         mockSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHead>())).Returns(false);
 
         var currentQuote = costService.CalculateCost(RoboHead.InfraredVision);
-        var (_, currentPrice) = currentQuote.Head;
-        
+
         mockLuxurySupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboHead>()), Times.Once);
         mockSupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboHead>()), Times.Never);
-        Assert.Equal(15, currentPrice);
+        AssertQuotePriceEquals(currentQuote, 15);
+    }
+
+    private static void AssertQuotePriceEquals(Quote currentQuote, int expected)
+    {
+        var (_, currentPrice) = currentQuote.Head;
+        Assert.Equal(expected, currentPrice);
     }
 }
