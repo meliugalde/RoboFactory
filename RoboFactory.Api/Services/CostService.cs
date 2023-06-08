@@ -12,6 +12,15 @@ public class CostService
 
     public Quote CalculateCost(RoboHead head)
     {
+        double cheapest = GetCheapestPrice(head);
+
+        
+
+        return new Quote(head, cheapest);
+    }
+
+    private double GetCheapestPrice(RoboHead head)
+    {
         double cheapest = PositiveInfinity;
         foreach (var supplier in _suppliers)
         {
@@ -25,8 +34,7 @@ public class CostService
         {
             throw new Exception("No supplier for the Head robot part");
         }
-        
-        return new Quote(head, cheapest);
-    }
 
+        return cheapest;
+    }
 }
