@@ -1,8 +1,5 @@
 namespace RoboFactory.Api.Services;
-
-public enum RoboHead
+public class RoboHead : RoboPart
 {
-    StandardVision,
-    InfraredVision,
-    NightVision,
+    public RoboHeadOption Option { get; set; }
 }
