@@ -10,21 +10,33 @@ public class CostService
         _suppliers = suppliers;
     }
 
-    public Quote CalculateCost(RoboHead head)
+    public Quote CalculateCost(RoboHead head, RoboBody body)
     {
-        double cheapest = GetCheapestPrice(head);
+        double cheapestHead = GetCheapestPrice(head);
+        double cheapestBody = GetCheapestPrice(body);
 
-        return new Quote(head.Option, cheapest);
+        return new Quote(
+            new Quote.PricedPart<RoboHead>
+            {
+                Part = head,
+                Price = cheapestHead
+            },
+            new Quote.PricedPart<RoboBody>
+            {
+                Part = body,
+                Price = cheapestBody
+            }
+        );
     }
 
-    private double GetCheapestPrice(RoboHead head)
+    private double GetCheapestPrice(RoboPart part)
     {
         double cheapest = PositiveInfinity;
         foreach (var supplier in _suppliers)
         {
-            if (supplier.HasPart(head))
+            if (supplier.HasPart(part))
             {
-                cheapest = Math.Min(cheapest, supplier.GetPrice(head));
+                cheapest = Math.Min(cheapest, supplier.GetPrice(part));
             }
         }
 
