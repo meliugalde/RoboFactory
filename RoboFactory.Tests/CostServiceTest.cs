@@ -49,7 +49,7 @@ public class CostServiceTest
         RoboHead infraredVisionHead = new RoboHead{ Option = RoboHeadOption.InfraredVision };
         costService.CalculateCost(infraredVisionHead);
         
-        mockSupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboHeadOption>()));
+        mockSupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboPart>()));
     }
 
     [Fact]
@@ -73,8 +73,8 @@ public class CostServiceTest
         RoboHead infraredVisionHead = new RoboHead{ Option = RoboHeadOption.InfraredVision };
         var currentQuote = costService.CalculateCost(infraredVisionHead);
 
-        mockLuxurySupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboHeadOption>()), Times.Once);
-        mockSupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboHeadOption>()), Times.Never);
+        mockLuxurySupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboPart>()), Times.Once);
+        mockSupplier.Verify(supplier => supplier.GetPrice(It.IsAny<RoboPart>()), Times.Never);
         AssertQuotePriceEquals(currentQuote, 15);
     }
 
@@ -97,12 +97,12 @@ public class CostServiceTest
 
     private void GivenPriceForPart(Mock<Supplier> mockedSupplier, int price)
     {
-        mockedSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHeadOption>())).Returns(true);
-        mockedSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboHeadOption>())).Returns(price);
+        mockedSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboPart>())).Returns(true);
+        mockedSupplier.Setup(supplier => supplier.GetPrice(It.IsAny<RoboPart>())).Returns(price);
     }
 
     private void GivenPriceForPartNotAvailable(Mock<Supplier> mockedSupplier)
     {
-        mockedSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboHeadOption>())).Returns(false);
+        mockedSupplier.Setup(supplier => supplier.HasPart(It.IsAny<RoboPart>())).Returns(false);
     }
 }

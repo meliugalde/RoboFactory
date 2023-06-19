@@ -12,12 +12,12 @@ public class CostService
 
     public Quote CalculateCost(RoboHead head)
     {
-        double cheapest = GetCheapestPrice(head.Option);
+        double cheapest = GetCheapestPrice(head);
 
         return new Quote(head.Option, cheapest);
     }
 
-    private double GetCheapestPrice(RoboHeadOption head)
+    private double GetCheapestPrice(RoboHead head)
     {
         double cheapest = PositiveInfinity;
         foreach (var supplier in _suppliers)
