@@ -46,7 +46,7 @@ public class CostServiceTest
         GivenPriceForPart(mockLuxurySupplier, 50);
         GivenPriceForPart(mockSupplier, 35);
 
-        RoboHead infraredVisionHead = new RoboHead{ Option = RoboHeadOption.InfraredVision };
+        RoboHead infraredVisionHead = new RoboHead{ Option = RoboHeadOption.NightVision };
         costService.CalculateCost(infraredVisionHead);
         
         ThenSupplierHasBeenQueriedForPrice(mockSupplier);
